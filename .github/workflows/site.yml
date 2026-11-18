@@ -1,0 +1,84 @@
+name: Website checks and optional deployment
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: Publish the checked site to GitHub Pages
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: npm ci --ignore-scripts
+      - run: pip install -r scripts/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Check source and generated content
+        run: |
+          npm run check:syntax
+          python scripts/build_content.py
+          git diff --exit-code -- content.js projects journal
+          npm run check:links
+      - name: Browser, accessibility, and responsive checks
+        run: |
+          python -m http.server 3000 --bind 127.0.0.1 > /tmp/portfolio-server.log 2>&1 &
+          export CHROMIUM_PATH="$(python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()')"
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then break; fi
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:3000/ > /dev/null
+          npm run check:browser
+      - name: Check public outbound links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --max-retries 3 --timeout 30 --exclude-mail --exclude '^http://(localhost|127\.0\.0\.1)' --exclude '^https://api\.github\.com/' index.html 'projects/**/*.html' 'journal/**/*.html'
+          fail: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-previews
+          path: docs/screenshots
+  package:
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy && github.ref == 'refs/heads/main'
+    needs: checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stage public site
+        run: |
+          mkdir _site
+          cp index.html style.css enhancements.css app.js content.js i18n.js experience.js _site/
+          cp -r projects journal pictures _site/
+          touch _site/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+  deploy:
+    needs: package
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy && github.ref == 'refs/heads/main'
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy checked artifact
+        id: deployment
+        uses: actions/deploy-pages@v4

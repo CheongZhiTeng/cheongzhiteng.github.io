@@ -1,0 +1,14 @@
+{
+  "name": "zhi-teng-workspace",
+  "private": true,
+  "scripts": {
+    "check:syntax": "node --check app.js && node --check i18n.js && node --check experience.js && node --check content.js",
+    "check:links": "python scripts/check_links.py",
+    "check:browser": "python scripts/check_site.py && python scripts/check_extensions.py",
+    "content": "python scripts/build_content.py"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.3",
+    "prettier": "3.6.2"
+  }
+}

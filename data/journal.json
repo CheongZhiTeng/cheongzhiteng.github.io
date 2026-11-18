@@ -1,0 +1,54 @@
+[
+  {
+    "slug": "resilient-project-browser",
+    "title": {
+      "en": "A project browser that survives a failed request",
+      "zh": "让项目浏览器在请求失败时仍然可用"
+    },
+    "date": "2026-11-18",
+    "tag": {
+      "en": "Reliability",
+      "zh": "可靠性"
+    },
+    "body": [
+      {
+        "en": "The portfolio fetches public repositories from GitHub, but a failed request should not leave the page empty. It starts with a curated collection and uses the last successful response when one is available.",
+        "zh": "作品集从 GitHub 获取公开仓库，但请求失败不应让页面变空。页面先提供精选项目，并在可用时使用上一次成功响应。"
+      },
+      {
+        "en": "Unknown statistics stay unknown. Featured fallback cards do not invent star counts or update dates, and the interface explains which data is being shown.",
+        "zh": "未知统计值保持未知。备用卡片不会虚构星数或更新时间，界面也会说明当前数据来源。"
+      },
+      {
+        "en": "The browser checks exercise success, failure, and cached recovery separately. That makes the fallback part of the product rather than a rarely tested error screen.",
+        "zh": "浏览器检查分别覆盖成功、失败与缓存恢复，让备用流程成为产品的一部分。"
+      }
+    ]
+  },
+  {
+    "slug": "modern-campus-on-the-web",
+    "title": {
+      "en": "Bringing Modern Campus to a personal workspace",
+      "zh": "将 Modern Campus 带入个人空间"
+    },
+    "date": "2026-11-18",
+    "tag": {
+      "en": "Design & accessibility",
+      "zh": "设计与无障碍"
+    },
+    "body": [
+      {
+        "en": "MicroHub’s off-white surfaces, navy text, and teal controls set the direction. The portfolio adapts these tokens to a desktop sidebar, a mobile navigation bar, and project cards.",
+        "zh": "MicroHub 的米白底色、深蓝文字与青绿色控件确定了方向。作品集将这些设计变量应用于桌面侧栏、移动导航与项目卡片。"
+      },
+      {
+        "en": "The workspace illustration is a local SVG. The avatar has smaller WebP variants so a tiny profile image does not require the original full-size file.",
+        "zh": "工作台插画使用本地 SVG。头像提供较小的 WebP 版本，避免小尺寸头像也下载完整原图。"
+      },
+      {
+        "en": "The implementation includes visible keyboard focus, reduced-motion support, and browser checks at phone, tablet, and desktop widths.",
+        "zh": "实现包含可见键盘焦点、减少动态效果支持，以及手机、平板和桌面宽度的浏览器检查。"
+      }
+    ]
+  }
+]

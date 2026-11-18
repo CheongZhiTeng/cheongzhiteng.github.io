@@ -1,0 +1,207 @@
+[
+  {
+    "slug": "nanatsukaze",
+    "repo": "nanatsukaze",
+    "title": "Nanatsukaze",
+    "status": "released",
+    "stack": [
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "YouTube IFrame API"
+    ],
+    "image": "nanatsukaze.webp",
+    "demo": "https://cheongzhiteng.github.io/nanatsukaze/",
+    "source": "https://github.com/CheongZhiTeng/nanatsukaze",
+    "summary": {
+      "en": "A music gallery and player for the Japanese electronic duo Nanatsukaze.",
+      "zh": "为日本电子音乐组合 Nanatsukaze 制作的音乐画廊与播放器。"
+    },
+    "caption": {
+      "en": "Local capture of the public source. Playback and thumbnails depend on YouTube availability.",
+      "zh": "公开源码的本地截图。播放与缩略图依赖 YouTube 的可用性。"
+    },
+    "features": [
+      {
+        "en": "Browse songs and search by title or artist.",
+        "zh": "浏览歌曲，按歌名或艺人搜索。"
+      },
+      {
+        "en": "Play, pause, seek, shuffle, and repeat through the YouTube player.",
+        "zh": "通过 YouTube 播放器播放、暂停、跳转、随机及循环播放。"
+      },
+      {
+        "en": "Keyboard navigation and reduced-motion support.",
+        "zh": "支持键盘操作与减少动态效果设置。"
+      }
+    ],
+    "notes": [
+      {
+        "en": "Embedding a player separates the interface from media delivery. Unavailable videos need an explicit recovery path.",
+        "zh": "嵌入播放器将界面与媒体传输分离。不可用的视频需要明确的恢复机制。"
+      },
+      {
+        "en": "Animated interfaces need reduced-motion options and smaller-screen performance limits.",
+        "zh": "动画界面需要减少动态效果选项，以及适合小屏幕的性能限制。"
+      }
+    ],
+    "scope": {
+      "en": "The repository describes a live release. This does not establish a maintenance commitment or guarantee that every video remains available.",
+      "zh": "仓库标记为已上线。这不代表维护承诺，也不保证所有视频持续可用。"
+    }
+  },
+  {
+    "slug": "microhub",
+    "repo": "MicroHub",
+    "title": "MicroHub",
+    "status": "development",
+    "stack": [
+      "TypeScript",
+      "React Native",
+      "Expo",
+      "Supabase"
+    ],
+    "image": "microhub.webp",
+    "demo": null,
+    "source": "https://github.com/CheongZhiTeng/MicroHub/tree/codex/ui-redesign",
+    "summary": {
+      "en": "A Modern Campus workspace for a school coding community.",
+      "zh": "面向校园编程社团的 Modern Campus 工作空间。"
+    },
+    "caption": {
+      "en": "MicroHub dashboard from its UI checks, with synthetic test data.",
+      "zh": "MicroHub 界面测试中的仪表盘，使用虚构测试数据。"
+    },
+    "features": [
+      {
+        "en": "Membership onboarding, profiles, and a member directory.",
+        "zh": "会员入会、个人资料与成员目录。"
+      },
+      {
+        "en": "Role-aware membership review and administration.",
+        "zh": "根据角色提供会员审批与管理功能。"
+      },
+      {
+        "en": "Consistent layouts for phones and tablets.",
+        "zh": "适配手机和平板的一致布局。"
+      }
+    ],
+    "notes": [
+      {
+        "en": "Shared design tokens keep forms, cards, navigation, and feedback consistent across screens.",
+        "zh": "共享设计变量让表单、卡片、导航与反馈在不同页面保持一致。"
+      },
+      {
+        "en": "A useful dashboard should distinguish available workflows from planned modules.",
+        "zh": "实用的仪表盘应明确区分可用流程与计划中的模块。"
+      }
+    ],
+    "scope": {
+      "en": "Homework, attendance, and event modules are planned. The screenshot is a UI preview, not a live school account.",
+      "zh": "作业、考勤与活动模块仍在规划中。截图为界面预览，并非真实学校账号。"
+    }
+  },
+  {
+    "slug": "soriva",
+    "repo": "soriva",
+    "title": "Soriva",
+    "status": "development",
+    "stack": [
+      "TypeScript",
+      "Next.js",
+      "React",
+      "Tailwind CSS",
+      "Supabase"
+    ],
+    "image": "soriva.webp",
+    "demo": null,
+    "source": "https://github.com/CheongZhiTeng/soriva",
+    "summary": {
+      "en": "A Japanese learning space with guided lessons, focused practice, and personal progress.",
+      "zh": "通过引导课程、专注练习与个人进度记录学习日语。"
+    },
+    "caption": {
+      "en": "Local capture of the public landing page; no signed-in account or learning records.",
+      "zh": "公开介绍页面的本地截图，不含已登录账号或学习记录。"
+    },
+    "features": [
+      {
+        "en": "A structured learning path with kana and lesson practice.",
+        "zh": "结构化学习路径，提供假名与课程练习。"
+      },
+      {
+        "en": "Daily practice and review of previous mistakes.",
+        "zh": "每日练习与错题复习。"
+      },
+      {
+        "en": "Listening tools and account-based progress tracking.",
+        "zh": "听力工具与基于账号的进度追踪。"
+      }
+    ],
+    "notes": [
+      {
+        "en": "Study history and practice drafts need clear ownership so one account never inherits another account’s progress.",
+        "zh": "学习历史与练习草稿需要明确归属，避免账号间进度混淆。"
+      },
+      {
+        "en": "A polished learning interface still needs content, accessibility, and authenticated-flow acceptance checks.",
+        "zh": "完善的学习界面仍需要内容、无障碍与登录流程的验收。"
+      }
+    ],
+    "scope": {
+      "en": "The project documentation lists remaining release checks. This portfolio links to the source rather than exposing an authenticated learning workspace.",
+      "zh": "项目文档仍列有待完成的发布检查。此处提供源码链接，不展示已登录的学习空间。"
+    }
+  },
+  {
+    "slug": "workspace",
+    "repo": "cheongzhiteng.github.io",
+    "title": "My workspace",
+    "status": "development",
+    "stack": [
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Playwright"
+    ],
+    "image": "workspace.webp",
+    "demo": "../../index.html?embed=1",
+    "source": "https://github.com/CheongZhiTeng/cheongzhiteng.github.io",
+    "summary": {
+      "en": "A personal portfolio built around useful project discovery and the Modern Campus design language.",
+      "zh": "围绕实用的项目探索与 Modern Campus 设计语言构建的个人作品集。"
+    },
+    "caption": {
+      "en": "Local portfolio preview. Featured fallback data is clearly labeled when GitHub is unavailable.",
+      "zh": "作品集本地预览。GitHub 不可用时，精选备用数据会明确标注。"
+    },
+    "features": [
+      {
+        "en": "Search, language and status filters, bookmarks, and shareable URLs.",
+        "zh": "搜索、语言与状态筛选、收藏和可分享的网址。"
+      },
+      {
+        "en": "English and Chinese, persistent preferences, and light/dark themes.",
+        "zh": "中英文切换、偏好记忆与明暗主题。"
+      },
+      {
+        "en": "Cached repository data, optimized local images, and automated browser checks.",
+        "zh": "仓库数据缓存、优化的本地图片与自动化浏览器检查。"
+      }
+    ],
+    "notes": [
+      {
+        "en": "A network request should enhance a useful page. Cached and curated content keep project discovery available when the API fails.",
+        "zh": "网络请求应增强已有页面；缓存与精选内容可在 API 失败时继续支持项目探索。"
+      },
+      {
+        "en": "Search state belongs in the URL when visitors need to share or restore the same collection.",
+        "zh": "当访客需要分享或恢复同一组结果时，搜索状态应保存在网址中。"
+      }
+    ],
+    "scope": {
+      "en": "This redesign is being developed locally. Publication is a separate deployment step.",
+      "zh": "此改版正在本地开发中，正式上线需要单独部署。"
+    }
+  }
+]
