@@ -300,41 +300,78 @@ function render() {
     })
     .join("");
 }
-function navigate(scroll = true) {
-  const route = location.hash.slice(1) || "home";
-  const active = [
-    "home",
-    "projects",
-    "saved",
-    "about",
-    "skills",
-    "journal",
-    "contact",
-  ].includes(route)
-    ? route
-    : "home";
-  document.querySelectorAll("[data-nav]").forEach((a) => {
-    const yes = a.dataset.nav === active;
-    a.classList.toggle("active", yes);
-    if (yes) a.setAttribute("aria-current", "page");
-    else a.removeAttribute("aria-current");
-  });
-  $("pageLabel").textContent = {
-    home: "Overview",
-    projects: "Projects",
-    saved: "Saved",
-    about: "About me",
-    skills: "Skills",
-    journal: "Journal",
-    contact: "Contact",
-  }[active];
-  render();
-  if (scroll && active === "saved")
-    $("projects").scrollIntoView({
-      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? "instant"
-        : "smooth",
+const sectionLabels = {
+  home: "Overview",
+  projects: "Projects",
+  saved: "Saved",
+  about: "About me",
+  skills: "Skills",
+  journal: "Journal",
+  contact: "Contact",
+};
+const sectionLinks = document.querySelectorAll("[data-nav]");
+const scrollSections = ["projects", "about", "skills", "journal", "contact"];
+const compactNav = matchMedia("(max-width: 950px)");
+const scrollProgress = document.querySelector(".scroll-progress");
+let previousSection;
+let previousNav;
+let scrollFrame = 0;
+
+function updateNavigation(section) {
+  const active =
+    compactNav.matches && ["skills", "journal", "contact"].includes(section)
+      ? "about"
+      : section;
+  if (active !== previousNav)
+    sectionLinks.forEach((a) => {
+      const yes = a.dataset.nav === active;
+      a.classList.toggle("active", yes);
+      if (yes) a.setAttribute("aria-current", "location");
+      else a.removeAttribute("aria-current");
     });
+  if (section !== previousSection)
+    $("pageLabel").textContent = sectionLabels[section];
+  previousSection = section;
+  previousNav = active;
+}
+
+function scheduleScrollUpdate() {
+  if (scrollFrame) return;
+  scrollFrame = requestAnimationFrame(() => {
+    scrollFrame = 0;
+    const scrollRange = document.documentElement.scrollHeight - innerHeight;
+    const progress =
+      scrollRange > 0 ? Math.max(0, Math.min(1, scrollY / scrollRange)) : 0;
+    const atBottom = progress >= 0.998;
+    const readingLine = Math.min(160, innerHeight * 0.28);
+    const linkedSection = location.hash.slice(1);
+    const linkedAnchor = linkedSection === "saved" ? "projects" : linkedSection;
+    let section = "home";
+    for (const id of scrollSections) {
+      if (
+        $(id).getBoundingClientRect().top >
+        (atBottom ? innerHeight * 0.9 : readingLine)
+      )
+        break;
+      section = id;
+    }
+    // Several short sections can share the last scroll position on tall screens.
+    if (atBottom && scrollSections.includes(linkedAnchor)) {
+      const { top, bottom } = $(linkedAnchor).getBoundingClientRect();
+      if (top < innerHeight && bottom > 0) section = linkedAnchor;
+    }
+    if (section === "projects" && isSavedView()) section = "saved";
+    updateNavigation(section);
+    scrollProgress.style.setProperty("--scroll-progress", progress);
+  });
+}
+
+function navigate(scroll = true) {
+  const route = location.hash.slice(1);
+  updateNavigation(Object.hasOwn(sectionLabels, route) ? route : "home");
+  render();
+  if (scroll && route === "saved") $("projects").scrollIntoView();
+  scheduleScrollUpdate();
 }
 async function refresh() {
   if (busy) return;
@@ -439,6 +476,10 @@ $("themeToggle").addEventListener("click", () => {
   persist();
 });
 window.addEventListener("hashchange", () => navigate());
+window.addEventListener("scroll", scheduleScrollUpdate, { passive: true });
+window.addEventListener("resize", scheduleScrollUpdate);
+window.addEventListener("pageshow", scheduleScrollUpdate);
+new ResizeObserver(scheduleScrollUpdate).observe($("main"));
 window.addEventListener("keydown", (e) => {
   if (
     e.key === "/" &&

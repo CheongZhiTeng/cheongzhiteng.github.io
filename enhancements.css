@@ -9,6 +9,112 @@
 .secondary-nav a:hover {
   color: var(--teal);
 }
+.secondary-nav a.active {
+  color: var(--teal);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Color stays in the canvas behind the content, with two sparse layers of dots. */
+.workspace-page {
+  isolation: isolate;
+}
+.workspace-background {
+  --wash-mint: #80e4c233;
+  --wash-lilac: #bcb0f82e;
+  --wash-peach: #ffc4a333;
+  --dust-teal: #08736e39;
+  --dust-lilac: #7855b132;
+  --dust-amber: #b1653238;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 91% 6%, var(--wash-mint), transparent 53%),
+    radial-gradient(ellipse at 43% 55%, var(--wash-lilac), transparent 58%),
+    radial-gradient(ellipse at 91% 88%, var(--wash-peach), transparent 53%);
+}
+[data-theme="dark"] .workspace-background {
+  --wash-mint: #17877538;
+  --wash-lilac: #6b50b72b;
+  --wash-peach: #ba733925;
+  --dust-teal: #87e3d247;
+  --dust-lilac: #c5b2ff46;
+  --dust-amber: #ffd19c40;
+}
+.workspace-background::before,
+.workspace-background::after {
+  content: "";
+  position: absolute;
+  inset: -32px;
+  background-image:
+    radial-gradient(
+      circle at 23px 29px,
+      var(--dust-teal) 0.75px,
+      transparent 1.25px
+    ),
+    radial-gradient(
+      circle at 188px 107px,
+      var(--dust-teal) 0.7px,
+      transparent 1.15px
+    ),
+    radial-gradient(
+      circle at 121px 189px,
+      var(--dust-teal) 0.55px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 79px 53px,
+      var(--dust-amber) 0.6px,
+      transparent 1.05px
+    ),
+    radial-gradient(
+      circle at 244px 171px,
+      var(--dust-amber) 0.55px,
+      transparent 1px
+    );
+  background-size:
+    281px 251px,
+    281px 251px,
+    281px 251px,
+    317px 227px,
+    317px 227px;
+}
+.workspace-background::after {
+  background-image:
+    radial-gradient(
+      circle at 91px 42px,
+      var(--dust-lilac) 0.7px,
+      transparent 1.15px
+    ),
+    radial-gradient(
+      circle at 257px 132px,
+      var(--dust-lilac) 0.55px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 149px 221px,
+      var(--dust-lilac) 0.65px,
+      transparent 1.1px
+    );
+  background-size: 337px 293px;
+}
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto var(--sidebar);
+  z-index: 21;
+  height: 2px;
+  background: linear-gradient(90deg, #40ad93, #8187d8, #e5a66d);
+  opacity: 0.72;
+  transform: scaleX(var(--scroll-progress, 0));
+  transform-origin: left;
+  pointer-events: none;
+}
+.embedded-preview .scroll-progress {
+  left: 0;
+}
 .locale-toggle {
   font-weight: 700;
   font-size: 12px;
@@ -390,12 +496,12 @@
     opacity 0.65s ease,
     transform 0.65s ease;
 }
-[data-motion="on"] .reveal:not(.is-visible) {
+[data-motion="on"] .reveal:not(.is-visible):not(:focus-within) {
   opacity: 0;
   transform: translateY(22px);
 }
 [data-motion="on"] .repo-card {
-  animation: enter-up 0.35s ease both;
+  animation: enter-up 0.35s ease backwards;
 }
 [data-motion="on"] .repo-card:nth-child(3n + 2) {
   animation-delay: 0.05s;
@@ -434,6 +540,70 @@
 }
 [data-motion="on"] #refreshButton:disabled .icon {
   animation: record-turn 1.1s linear infinite;
+}
+[data-motion="on"] .workspace-background::before {
+  animation: dust-drift 42s ease-in-out infinite alternate;
+}
+[data-motion="on"] .workspace-background::after {
+  animation: dust-drift 58s ease-in-out infinite alternate-reverse;
+}
+[data-motion="on"] .nav-item.active > .icon {
+  animation: nav-settle 0.32s ease-out;
+}
+[data-motion="on"] .featured-card,
+[data-motion="on"] .stat-card {
+  transition:
+    translate 0.26s ease,
+    box-shadow 0.26s ease;
+}
+[data-motion="on"] .stat-icon,
+[data-motion="on"] .skill-mark,
+[data-motion="on"] .journal-card .text-link,
+[data-motion="on"] .record-art {
+  transition:
+    translate 0.3s ease,
+    rotate 0.3s ease;
+}
+[data-motion="on"] .stat-card:hover,
+[data-motion="on"] .featured-card:is(:hover, :focus-within) {
+  translate: 0 -3px;
+  box-shadow: 0 12px 22px #17263d0f;
+}
+[data-motion="on"] .stat-card:hover .stat-icon,
+[data-motion="on"] .skill-card:is(:hover, :focus-visible) .skill-mark {
+  translate: 0 -2px;
+  rotate: -8deg;
+}
+[data-motion="on"] .journal-card:is(:hover, :focus-visible) .text-link {
+  translate: 4px 0;
+}
+[data-motion="on"] .music-feature:is(:hover, :focus-within) .record-art {
+  translate: 0 -5px;
+  rotate: 3deg;
+}
+[data-motion="on"] .filter-chip,
+[data-motion="on"] .view-switch button {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    scale 0.16s ease;
+}
+[data-motion="on"] .filter-chip:active,
+[data-motion="on"] .view-switch button:active {
+  scale: 0.95;
+}
+@keyframes dust-drift {
+  from {
+    transform: translate3d(-12px, 12px, 0);
+  }
+  to {
+    transform: translate3d(16px, -19px, 0);
+  }
+}
+@keyframes nav-settle {
+  45% {
+    transform: translateY(-2px) scale(1.12);
+  }
 }
 [data-motion="off"] *,
 [data-motion="off"] *:before,
@@ -659,4 +829,13 @@
 :root:not([data-theme="dark"]) {
   --teal: #08736e;
 }
-.skill-card .icon{width:12px;height:12px;vertical-align:middle}.detail-section .source-note .icon{width:14px;height:14px;vertical-align:middle}
+.skill-card .icon {
+  width: 12px;
+  height: 12px;
+  vertical-align: middle;
+}
+.detail-section .source-note .icon {
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+}
